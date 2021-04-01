@@ -1,27 +1,35 @@
 # https://atcoder.jp/contests/abs/tasks/abc081_b
 
-size = input()
-input_data = list(map(int, input().split()))
-l_si = [int(s) for s in input_data]
+def main():
+  size = input()
+  input_data = list(map(int, input().split()))
+  list_data = [int(item) for item in input_data]
 
-print(l_si)
+  shift_count = 0
+  list_data_next:list = list_data
+  is_next = True
+  while(is_next):
+    is_next = is_shiftable(list_data_next)
+    if is_next:
+      shift_count += 1
+      list_data_next = shift_items(list_data_next)
 
-l_si_next = l_si
-is_next = True
-count = 0
-while(True):
-  l_si_temp = []
-  for si in l_si_next:
-    si_harf = si / 2
-    l_si_temp.append(si_harf)
-    if si_harf % 2 == 1:
-      is_next = False
-      break
-  
-  if not is_next:
-    break
-  else:
-    l_si_next = l_si_temp
-    count += 1
+  print(shift_count)
 
-print(count)
+# 引数のリストの要素が全てシフト可能か判定する
+def is_shiftable(list: list) -> bool:
+  for item in list:
+    if item % 2 == 1:
+      return False
+  return True
+
+# 引数のリストの要素を右シフトする
+def shift_items(list: list) -> list:
+  list_temp = []
+  for item in list:
+    shifted = item >> 1
+    list_temp.append(shifted)
+  return list_temp
+
+# main関数の実行
+main()
